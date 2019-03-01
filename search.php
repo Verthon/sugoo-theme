@@ -1,79 +1,55 @@
 <?php
 /**
- * The template for displaying search results pages.
+ * The template for displaying search results pages
  *
- * @package WordPress
- * @subpackage Shop Isle
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#search-result
+ *
+ * @package sugoo-theme
  */
 
-get_header(); ?>
+get_header();
+?>
 
-	<!-- Wrapper start -->
-	<div class="main">
-		<!-- Post single start -->
+	<section id="primary" class="content-area">
+		<main id="main" class="site-main">
+
+		<?php if ( have_posts() ) : ?>
+
+			<header class="page-header">
+				<h1 class="page-title">
+					<?php
+					/* translators: %s: search query. */
+					printf( esc_html__( 'Search Results for: %s', 'sugoo-theme' ), '<span>' . get_search_query() . '</span>' );
+					?>
+				</h1>
+			</header><!-- .page-header -->
+
 			<?php
-			$shop_isle_header_image = get_header_image();
-			if ( ! empty( $shop_isle_header_image ) ) :
-				echo '<section class="page-header-module module bg-dark" data-background="' . esc_url( $shop_isle_header_image ) . '">';
-				else :
-					echo '<section class="page-header-module module bg-dark">';
-				endif;
-			?>
-			
-					<div class="container">
-						<div class="row">
-							<div class="col-sm-6 col-sm-offset-3">
-								<h1 class="module-title font-alt">
-								<?php
-								printf(
-									/* translators: s: Search term. */
-										__( 'Search Results for: %s', 'shop-isle' ),
-									'<span>' . get_search_query() . '</span>'
-								);
-								?>
-								</h1>
-							</div>
-						</div>
-					</div><!-- .container -->
-			
-			
-			<?php
-				echo '</section>';
+			/* Start the Loop */
+			while ( have_posts() ) :
+				the_post();
 
-				echo '<section class="module">';
-			?>
-			<div class="container">
+				/**
+				 * Run the loop for the search to output the results.
+				 * If you want to overload this in a child theme then include a file
+				 * called content-search.php and that will be used instead.
+				 */
+				get_template_part( 'template-parts/content', 'search' );
 
-				<div class="row">
+			endwhile;
 
-					<!-- Content column start -->
-					<div class="col-sm-8">
+			the_posts_navigation();
 
-						<?php if ( have_posts() ) : ?>
+		else :
 
-							<?php get_template_part( 'loop' ); ?>
+			get_template_part( 'template-parts/content', 'none' );
 
-						<?php else : ?>
+		endif;
+		?>
 
-							<?php get_template_part( 'content', 'none' ); ?>
+		</main><!-- #main -->
+	</section><!-- #primary -->
 
-						<?php endif; ?>
-
-					</div><!-- Content column end -->	
-					
-					<!-- Sidebar column start -->
-					<div class="col-sm-4 col-md-3 col-md-offset-1 sidebar">
-
-						<?php do_action( 'shop_isle_sidebar' ); ?>
-
-					</div>
-					<!-- Sidebar column end -->
-					
-				</div><!-- .row -->
-
-			</div>
-		</section>
-		<!-- Post single end -->
-
-
-<?php get_footer(); ?>
+<?php
+get_sidebar();
+get_footer();

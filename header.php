@@ -1,48 +1,58 @@
 <?php
 /**
- * The header for our theme.
+ * The header for our theme
  *
- * @package shop-isle
+ * This is the template that displays all of the <head> section and everything up until <div id="content">
+ *
+ * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
+ *
+ * @package sugoo-theme
  */
-?><!DOCTYPE html>
+
+?>
+<!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
-<meta charset="<?php bloginfo( 'charset' ); ?>">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<link rel="profile" href="http://gmpg.org/xfn/11">
-<?php if ( is_singular() && pings_open( get_queried_object() ) ) { ?>
-	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
-<?php } ?>
+	<meta charset="<?php bloginfo( 'charset' ); ?>">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="https://gmpg.org/xfn/11">
 
-<?php wp_head(); ?>
+	<?php wp_head(); ?>
 </head>
 
 <body <?php body_class(); ?>>
+<div id="page" class="site">
+	<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'sugoo-theme' ); ?></a>
 
-	<?php do_action( 'shop_isle_before_header' ); ?>
+	<header id="masthead" class="site-header">
+		<div class="site-branding">
+			<?php
+			the_custom_logo();
+			if ( is_front_page() && is_home() ) :
+				?>
+				<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+				<?php
+			else :
+				?>
+				<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
+				<?php
+			endif;
+			$sugoo_theme_description = get_bloginfo( 'description', 'display' );
+			if ( $sugoo_theme_description || is_customize_preview() ) :
+				?>
+				<p class="site-description"><?php echo $sugoo_theme_description; /* WPCS: xss ok. */ ?></p>
+			<?php endif; ?>
+		</div><!-- .site-branding -->
 
-	<!-- Preloader -->
-	<?php
+		<nav id="site-navigation" class="main-navigation">
+			<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><?php esc_html_e( 'Primary Menu', 'sugoo-theme' ); ?></button>
+			<?php
+			wp_nav_menu( array(
+				'theme_location' => 'menu-1',
+				'menu_id'        => 'primary-menu',
+			) );
+			?>
+		</nav><!-- #site-navigation -->
+	</header><!-- #masthead -->
 
-	/* Preloader */
-	if ( is_front_page() && ! is_customize_preview() ) :
-
-		$shop_isle_disable_preloader = get_theme_mod( 'shop_isle_disable_preloader' );
-
-		if ( isset( $shop_isle_disable_preloader ) && ($shop_isle_disable_preloader != 1) ) :
-
-			echo '<div class="page-loader">';
-				echo '<div class="loader">' . __( 'Loading...','shop-isle' ) . '</div>';
-			echo '</div>';
-
-		endif;
-
-	endif;
-
-
-
-	?>
-	
-	<?php do_action( 'shop_isle_header' ); ?>
-
-	<?php do_action( 'shop_isle_after_header' ); ?>
+	<div id="content" class="site-content">

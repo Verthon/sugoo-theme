@@ -1,8 +1,10 @@
 <?php
 /**
- * The sidebar containing the main widget area.
+ * The sidebar containing the main widget area
  *
- * @package shop-isle
+ * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
+ *
+ * @package sugoo-theme
  */
 
 if ( ! is_active_sidebar( 'sidebar-1' ) ) {
@@ -10,7 +12,6 @@ if ( ! is_active_sidebar( 'sidebar-1' ) ) {
 }
 ?>
 
-<aside id="secondary" class="widget-area" role="complementary">
+<aside id="secondary" class="widget-area">
 	<?php dynamic_sidebar( 'sidebar-1' ); ?>
-	<?wp_nav_menu( array( 'theme_location' => 'sidebar-menu', 'container_class' => 'sidebar_class' ) ); ?>
 </aside><!-- #secondary -->
